@@ -1,10 +1,22 @@
-# swift_republic [![Gem Version](https://badge.fury.io/rb/swift_republic.svg)](https://badge.fury.io/rb/swift_republic)
+# swift_republic [![Gem Version](https://badge.fury.io/rb/swift_republic.svg)](https://badge.fury.io/rb/swift_republic) <a href="LICENSE"> <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT License"> </a> <a href="https://swift.org"> <img src="https://img.shields.io/badge/swift-4.2-brightgreen.svg" alt="Swift 4.2"> </a>
 
+    
 A ruby gem to auto-generate public initializers for swift data-models, and update access-control modifiers where needed.  
 
-<p align="center">
-<img src="resources/demo.gif" height="auto">
-</p>
+This gem has been tested to handle the following aspects of your swift code:
+
+- Make protocol declaration public
+- Make enum declaration public
+- Make struct declaration public
+- Make property declaration public
+- Create public default memberwise initializers for structs
+- Make other initializers public
+- Make custom func inside structs and enum public
+- Create default initializers with default values where available
+
+Here's a sneak peek into how your code gets transformed:
+
+<img src="resources/sample_ref.png" />
 
 ## Problem defination:
 
@@ -78,25 +90,29 @@ It primarily consists of one method, viz. `make_models_public` which takes the f
 
 - `reserved_keywords` = an optional array of strings, such that if ANY of the strings passed here is detected in ANY line of the source file, the script will no longer generate an output file. This is especially useful when you want to move your data models from app target to framework target, but the data nodel has dependencies on images, localized strings, and other resources which need to be moved to the other bundle  first.
 
-Also note that this gem DOES NOT modify the source swift file in any way.
+Note that this gem DOES NOT modify the source swift file in any way.
+
+Also note that currently the gem executes in ruby interactive mode, one file at a time, and I plan to add a rake file to handle entire projects in one shot. Stay tuned.
 
 ## Sample Input and Output:
 
-[Sample input](https://github.com/mehul90/swift_republic/resources/Source_File.swift)
-[Sample Output](https://github.com/mehul90/swift_republic/resources/generated_file.swift)
+[<font size="+3">📥 </font> &nbsp;&nbsp; Sample Input](https://github.com/mehul90/swift_republic/blob/master/resources/Source_File.swift)
+
+[Sample Output &nbsp;&nbsp; <font size="+3">📤</font>](https://github.com/mehul90/swift_republic/blob/master/resources/generated_file.swift)
 
 
 ## Known Exceptions:
 
-- The script does not check if structs already has default memberwise initializer. If it has, the script will add another one, and the code will not compile.
-- A major part of the script relies on the struct being well-formed, and that each opening brace should be matched by a closing brace. Also, there should be just one closing brace in a line. If not, the failing part will be marked in the generated file as "<<--Please fix formatting there, and run again." meaning you  need to fix this part in the source file, and run the script again.
-- Function names, property names, or variable names containing swift data types like "struct" or "enum" or "func" will also likely fail. For example, `let microstructures: [String]` or `var isMalfunction: Bool` could create problems.
+- The script does not check if structs in the input file already has default memberwise initializer or not. If it has, the script will still add another one, and the code will not compile.
+- A major part of the script relies on the struct being well-formed, and that each opening brace should be matched by a closing brace. <br>Also, there should be only one closing brace in a line. If not, the failing part will be marked in the generated file as "<<--Please fix formatting there, and run again." meaning you  need to fix this part in the source file, and run the script again.
+- Function names, property names, or variable names containing swift data types like "struct" or "enum" or "func" could fail, since the parser look for these keywords. For example, `let microstructures: [String]` or `var isMalfunction: Bool` could create problems.
 
 
 ## And finally:
 
 Note that the script is designed to be scalable and easy to read (thus allowing more space for improvements), and may not necessarily use the fastest/shortest ruby syntax.
 
-For any issues/improvements, please feel free to open an issue or create an MR.
+If this gem 💎 saved your time, please feel free to star 🌟the repo and share it with your friends.
 
+For any issues/improvements, please feel free to open an issue 📝 or create an PR 👨‍💻.
 

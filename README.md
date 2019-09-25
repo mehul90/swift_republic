@@ -60,7 +60,7 @@ Also, check that the comments and recent updates here: [https://stackoverflow.co
 
 Assuming you have Ruby instaled already, install this the same way you would install any other gem:
 
-`gem install swift_rebublic`
+`gem install swift_republic`
 
 ## Making a dry run:
 
